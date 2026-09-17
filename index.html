@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#160d14">
+
+<title>For Anam — 18.09</title>
+
+<style>
+:root{
+  --black:#100b10;
+  --deep:#1b1019;
+  --mauve:#3a1e31;
+  --pink:#e8a9c5;
+  --soft-pink:#f2cbd9;
+  --cream:#f8eff2;
+  --muted:#bcaab3;
+  --line:rgba(255,220,233,.14);
+  --glass:rgba(255,210,230,.055);
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
+}
+
+body{
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      #392033 0%,
+      #1d111a 32%,
+      #100b10 75%
+    );
+  color:var(--cream);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+/* CINEMATIC GRAIN */
+
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  pointer-events:none;
+  opacity:.045;
+
+  background-image:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+#app{
+  width:100%;
+  height:100%;
+  position:relative;
+}
+
+/* PAGE SYSTEM */
+
+.page{
+  position:absolute;
+  inset:0;
+
+  display:grid;
+  place-items:center;
+
+  padding:
+    34px
+    24px
+    30px;
+
+  overflow:hidden;
+
+  opacity:0;
+  visibility:hidden;
+
+  transform:
+    translateY(28px)
+    scale(.985);
+
+  transition:
+    opacity .7s ease,
+    transform 1s cubic-bezier(.2,.8,.2,1),
+    visibility .7s ease;
+}
+
+.page.active{
+  opacity:1;
+  visibility:visible;
+  transform:none;
+}
+
+.content{
+  width:min(680px,100%);
+  position:relative;
+  z-index:10;
+}
+
+.center{
+  text-align:center;
+}
+
+.eyebrow{
+  margin-bottom:18px;
+
+  color:var(--muted);
+
+  font-size:10px;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+}
+
+h1{
+  margin:0;
+
+  font-size:
+    clamp(52px,14vw,100px);
+
+  line-height:.88;
+
+  letter-spacing:-.065em;
+
+  font-weight:500;
+}
+
+h2{
+  margin:0;
+
+  font-size:
+    clamp(32px,8vw,58px);
+
+  line-height:1;
+
+  letter-spacing:-.05em;
+
+  font-weight:500;
+}
+
+p{
+  margin:0;
+
+  color:#d9cbd2;
+
+  font-size:
+    clamp(15px,4vw,18px);
+
+  line-height:1.85;
+}
+
+button{
+  border:1px solid rgba(255,220,233,.17);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,200,220,.08),
+      rgba(255,255,255,.025)
+    );
+
+  color:#f7eaf0;
+
+  border-radius:999px;
+
+  padding:14px 22px;
+
+  font-size:10px;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+
+  cursor:pointer;
+
+  backdrop-filter:blur(15px);
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.18);
+
+  transition:
+    transform .35s ease,
+    background .35s ease,
+    border-color .35s ease;
+}
+
+button:hover{
+  transform:translateY(-2px);
+
+  border-color:
+    rgba(242,178,205,.45);
+
+  background:
+    rgba(236,165,195,.11);
+}
+
+button:active{
+  transform:scale(.96);
+}
+
+/* PROGRESS */
+
+.progress{
+  position:fixed;
+
+  top:20px;
+  left:24px;
+  right:24px;
+
+  height:1px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  z-index:900;
+}
+
+.progress span{
+  display:block;
+
+  width:0;
+  height:100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #9f637f,
+      #f1b8ce
+    );
+
+  transition:width .7s ease;
+}
+
+/* STARS */
+
+.stars{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.star{
+  position:absolute;
+
+  width:2px;
+  height:2px;
+
+  border-radius:50%;
+
+  background:#fff4f8;
+
+  opacity:.25;
+
+  animation:
+    twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle{
+  0%,100%{
+    opacity:.12;
+    transform:scale(.7);
+  }
+
+  50%{
+    opacity:.75;
+    transform:scale(1.3);
+  }
+}
+
+/* AMBIENT PINK GLOW */
+
+.glow{
+  position:absolute;
+
+  width:430px;
+  height:430px;
+
+  border-radius:50%;
+
+  background:
+    rgba(223,128,172,.10);
+
+  filter:blur(85px);
+
+  pointer-events:none;
+}
+
+/* MOON */
+
+.moon{
+  width:min(235px,58vw);
+  aspect-ratio:1;
+
+  margin:
+    0 auto
+    38px;
+
+  border-radius:50%;
+
+  position:relative;
+
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      #fffaff 0%,
+      #eee8ed 38%,
+      #c9bec7 72%,
+      #918591 100%
+    );
+
+  box-shadow:
+    0 0 55px rgba(255,225,239,.18),
+    0 0 150px rgba(218,128,171,.09);
+
+  animation:
+    moonFloat 7s ease-in-out infinite;
+}
+
+.moon:before{
+  content:"";
+
+  position:absolute;
+
+  width:14px;
+  height:14px;
+
+  top:28%;
+  left:26%;
+
+  border-radius:50%;
+
+  background:rgba(100,88,99,.16);
+
+  box-shadow:
+    48px 36px 0 rgba(100,88,99,.10),
+    30px 78px 0 rgba(100,88,99,.13),
+    82px 95px 0 rgba(100,88,99,.08);
+}
+
+.moon:after{
+  content:"";
+
+  position:absolute;
+
+  width:110%;
+  height:110%;
+
+  left:40%;
+  top:-7%;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      #21131d 0%,
+      #160d14 65%,
+      #100b10 100%
+    );
+}
+
+@keyframes moonFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-8px);
+  }
+}
+
+/* CONSTELLATION */
+
+.constellation{
+  width:min(510px,100%);
+  height:240px;
+
+  margin:15px auto;
+
+  position:relative;
+}
+
+.constellation-line{
+  position:absolute;
+
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(239,174,202,.38),
+      transparent
+    );
+
+  transform-origin:left center;
+}
+
+.l1{
+  width:70%;
+  left:14%;
+  top:49%;
+  transform:rotate(-12deg);
+}
+
+.l2{
+  width:52%;
+  left:31%;
+  top:51%;
+  transform:rotate(27deg);
+}
+
+.l3{
+  width:35%;
+  left:47%;
+  top:67%;
+  transform:rotate(-38deg);
+}
+
+.node{
+  position:absolute;
+
+  width:11px;
+  height:11px;
+
+  border-radius:50%;
+
+  background:#f9dce9;
+
+  box-shadow:
+    0 0 17px rgba(242,172,205,.8),
+    0 0 35px rgba(230,136,179,.2);
+
+  animation:
+    nodePulse 3s ease-in-out infinite;
+}
+
+@keyframes nodePulse{
+  50%{
+    transform:scale(1.22);
+  }
+}
+
+/* STAR PAGES */
+
+.starPage{
+  min-height:180px;
+
+  display:grid;
+  place-items:center;
+
+  text-align:center;
+}
+
+.starPage p{
+  max-width:580px;
+  margin:auto;
+}
+
+/* RULES */
+
+.rules{
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:11px;
+
+  margin-top:28px;
+}
+
+.rule{
+  padding:21px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(241,170,199,.075),
+      rgba(255,255,255,.025)
+    );
+
+  color:#d9cbd2;
+
+  font-size:13px;
+
+  line-height:1.6;
+
+  transition:
+    transform .5s ease,
+    border-color .5s ease;
+}
+
+.rule:hover{
+  transform:translateY(-3px);
+
+  border-color:
+    rgba(240,175,204,.32);
+}
+
+/* WISH */
+
+textarea{
+  width:100%;
+
+  min-height:135px;
+
+  margin-top:25px;
+
+  padding:18px;
+
+  border:
+    1px solid rgba(255,220,233,.15);
+
+  border-radius:19px;
+
+  background:
+    rgba(255,200,220,.035);
+
+  color:#f8edf2;
+
+  font:inherit;
+  font-size:15px;
+
+  outline:none;
+
+  resize:none;
+
+  transition:
+    border-color .35s ease,
+    background .35s ease;
+}
+
+textarea:focus{
+  border-color:
+    rgba(239,171,201,.5);
+
+  background:
+    rgba(255,200,220,.055);
+}
+
+/* CAKE */
+
+.cakeScene{
+  text-align:center;
+}
+
+.cake{
+  width:190px;
+  height:84px;
+
+  margin:
+    105px auto 0;
+
+  position:relative;
+
+  border-radius:
+    12px
+    12px
+    25px
+    25px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #9c7188,
+      #513444
+    );
+
+  box-shadow:
+    0 30px 65px rgba(0,0,0,.48);
+}
+
+.cake:before{
+  content:"";
+
+  position:absolute;
+
+  width:100%;
+  height:31px;
+
+  top:-15px;
+  left:0;
+
+  border-radius:50%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b78ba1,
+      #765268
+    );
+}
+
+.cake:after{
+  content:"";
+
+  position:absolute;
+
+  width:78%;
+  height:1px;
+
+  left:11%;
+  top:43px;
+
+  background:
+    rgba(255,230,239,.18);
+}
+
+.candle{
+  position:absolute;
+
+  width:10px;
+  height:58px;
+
+  left:90px;
+  top:-68px;
+
+  border-radius:4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ddd2d7,
+      #fff8fa,
+      #c8bdc3
+    );
+}
+
+.flame{
+  position:absolute;
+
+  width:20px;
+  height:30px;
+
+  left:-5px;
+  top:-30px;
+
+  border-radius:
+    50%
+    50%
+    45%
+    45%;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 76%,
+      #fffdf0 0 14%,
+      #f5c1aa 38%,
+      rgba(236,150,184,.25) 70%,
+      transparent 73%
+    );
+
+  filter:
+    drop-shadow(
+      0 0 10px rgba(246,179,197,.55)
+    );
+
+  animation:
+    flame .13s infinite alternate;
+}
+
+@keyframes flame{
+  to{
+    transform:
+      translateX(1.5px)
+      scaleY(.91)
+      rotate(2deg);
+  }
+}
+
+/* ================================================= */
+/* PREMIUM ENVELOPE */
+/* ================================================= */
+
+.envelopeArea{
+  width:min(440px,94vw);
+
+  margin:
+    38px auto 0;
+
+  perspective:1300px;
+}
+
+.envelope{
+  width:100%;
+  height:270px;
+
+  position:relative;
+
+  cursor:pointer;
+
+  transform-style:preserve-3d;
+
+  border-radius:7px;
+
+  background:#d9c9cf;
+
+  box-shadow:
+    0 35px 90px rgba(0,0,0,.55),
+    0 10px 25px rgba(0,0,0,.25);
+
+  transition:
+    transform .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.envelope:hover{
+  transform:
+    translateY(-4px)
+    rotateX(1deg);
+}
+
+/* envelope base */
+
+.envelopeBack{
+  position:absolute;
+  inset:0;
+
+  border-radius:7px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eee4e7 0%,
+      #d8c9ce 38%,
+      #bbaab2 100%
+    );
+}
+
+/* subtle paper fibers */
+
+.envelopeBack:after{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  opacity:.035;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* LETTER INSIDE */
+
+.letterPreview{
+  position:absolute;
+
+  z-index:2;
+
+  left:8%;
+  right:8%;
+
+  top:15%;
+
+  height:76%;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  padding:25px;
+
+  color:#44343d;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:14px;
+
+  line-height:1.7;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffafa,
+      #eee3e7
+    );
+
+  box-shadow:
+    0 10px 28px rgba(43,28,36,.25);
+
+  transition:
+    transform 1.25s cubic-bezier(.18,.78,.2,1);
+}
+
+.letterPreview:after{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  opacity:.025;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+
+/* ENVELOPE FRONT FOLDS */
+
+.foldLeft,
+.foldRight{
+  position:absolute;
+
+  z-index:4;
+
+  bottom:0;
+
+  width:100%;
+  height:75%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ded1d5,
+      #c8b8bf
+    );
+}
+
+.foldLeft{
+  clip-path:
+    polygon(
+      0 100%,
+      0 0,
+      50% 100%
+    );
+}
+
+.foldRight{
+  clip-path:
+    polygon(
+      100% 100%,
+      100% 0,
+      50% 100%
+    );
+}
+
+/* TOP FLAP */
+
+.flap{
+  position:absolute;
+
+  z-index:6;
+
+  top:0;
+  left:0;
+  right:0;
+
+  height:57%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e6dadd,
+      #c6b5bd
+    );
+
+  clip-path:
+    polygon(
+      0 0,
+      100% 0,
+      50% 100%
+    );
+
+  transform-origin:
+    50% 0%;
+
+  transition:
+    transform 1.15s
+    cubic-bezier(.18,.8,.2,1);
+
+  box-shadow:
+    0 5px 10px rgba(0,0,0,.12);
+}
+
+.envelope.open .flap{
+  transform:
+    rotateX(180deg);
+}
+
+.envelope.open .letterPreview{
+  transform:
+    translateY(-48%);
+}
+
+/* ENVELOPE SEAL */
+
+.envelopeSeal{
+  position:absolute;
+
+  z-index:8;
+
+  left:50%;
+  top:47%;
+
+  width:38px;
+  height:38px;
+
+  transform:
+    translate(-50%,-50%);
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #edbfd0,
+      #a85d7d
+    );
+
+  box-shadow:
+    0 5px 16px rgba(0,0,0,.28),
+    inset 0 1px 2px rgba(255,255,255,.35);
+
+  transition:
+    opacity .5s ease,
+    transform .7s ease;
+}
+
+.envelopeSeal:after{
+  content:"A";
+
+  position:absolute;
+
+  inset:0;
+
+  display:grid;
+  place-items:center;
+
+  color:#fff0f5;
+
+  font-family:Georgia,serif;
+
+  font-size:16px;
+}
+
+.envelope.open .envelopeSeal{
+  opacity:0;
+
+  transform:
+    translate(-50%,-50%)
+    scale(.7);
+}
+
+/* ================================================= */
+/* REALISTIC LETTER PAGES */
+/* ================================================= */
+
+.letterPage{
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      #3b2031 0%,
+      #1c1119 48%,
+      #100b10 100%
+    );
+}
+
+.paper{
+  width:min(690px,94vw);
+
+  height:
+    min(78vh,760px);
+
+  padding:
+    clamp(30px,7vw,65px);
+
+  position:relative;
+
+  overflow:auto;
+
+  color:#332a30;
+
+  background:
+    linear-gradient(
+      115deg,
+      #f8f1f2 0%,
+      #f2e7ea 50%,
+      #eadcdf 100%
+    );
+
+  border-radius:
+    3px 5px 4px 3px;
+
+  box-shadow:
+    0 45px 100px rgba(0,0,0,.55),
+    0 10px 30px rgba(0,0,0,.28);
+
+  transform:
+    rotateX(1deg)
+    rotateZ(-.25deg);
+
+  animation:
+    paperArrive .9s
+    cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes paperArrive{
+  from{
+    opacity:0;
+
+    transform:
+      translateY(35px)
+      rotateZ(-1.5deg)
+      rotateX(4deg);
+  }
+
+  to{
+    opacity:1;
+
+    transform:
+      rotateX(1deg)
+      rotateZ(-.25deg);
+  }
+}
+
+/* paper edge */
+
+.paper:before{
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  opacity:.045;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 3px,
+      rgba(80,50,60,.35) 4px
+    );
+}
+
+/* paper grain */
+
+.paper:after{
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  opacity:.025;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)'/%3E%3C/svg%3E");
+}
+
+.paper > *{
+  position:relative;
+  z-index:3;
+}
+
+.paper .eyebrow{
+  color:#8c727e;
+}
+
+.paper h2{
+  color:#332830;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-weight:400;
+
+  font-size:
+    clamp(30px,7vw,45px);
+
+  line-height:1.05;
+
+  margin-bottom:28px;
+}
+
+.paper p{
+  color:#44383f;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(14px,3.8vw,16px);
+
+  line-height:2;
+
+  letter-spacing:.005em;
+}
+
+.paper p + p{
+  margin-top:20px;
+}
+
+.paper .lyric{
+  color:#8d5670;
+
+  font-style:italic;
+
+  padding-left:16px;
+
+  border-left:
+    1px solid #c997ad;
+}
+
+.paper button{
+  color:#49353f;
+
+  border-color:
+    rgba(94,59,75,.25);
+
+  background:
+    rgba(105,66,84,.055);
+}
+
+/* page number */
+
+.pageNumber{
+  position:absolute;
+
+  right:clamp(22px,5vw,50px);
+  bottom:22px;
+
+  color:#9e858f;
+
+  font-family:Georgia,serif;
+
+  font-size:11px;
+
+  letter-spacing:.15em;
+}
+
+/* REALISTIC PAGE TURN */
+
+.paper.turning{
+  animation:
+    pageTurn .7s
+    cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes pageTurn{
+  0%{
+    opacity:1;
+
+    transform:
+      perspective(1000px)
+      rotateY(0deg)
+      rotateZ(-.25deg);
+  }
+
+  45%{
+    opacity:.7;
+
+    transform:
+      perspective(1000px)
+      rotateY(-7deg)
+      translateX(-12px)
+      rotateZ(-1deg);
+  }
+
+  100%{
+    opacity:1;
+
+    transform:
+      perspective(1000px)
+      rotateY(0deg)
+      rotateZ(-.25deg);
+  }
+}
+
+/* FINAL */
+
+.finalText{
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(29px,8vw,52px);
+
+  line-height:1.25;
+
+  letter-spacing:-.025em;
+}
+
+.divider{
+  width:100%;
+  height:1px;
+
+  margin:28px 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(242,177,203,.3),
+      transparent
+    );
+}
+
+.small{
+  color:#a996a0;
+
+  font-size:11px;
+
+  line-height:1.7;
+}
+
+/* MOBILE */
+
+@media(max-width:520px){
+
+  .page{
+    padding:
+      28px
+      20px
+      24px;
+  }
+
+  .rules{
+    grid-template-columns:1fr;
+  }
+
+  .envelope{
+    height:225px;
+  }
+
+  .paper{
+    height:76vh;
+
+    padding:
+      34px
+      26px
+      42px;
+  }
+
+  .paper p{
+    line-height:1.85;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<div class="progress">
+  <span id="progressBar"></span>
+</div>
+
+
+<!-- ================================================= -->
+<!-- 01 -->
+<!-- ================================================= -->
+
+<section class="page active">
+
+  <div class="stars"></div>
+
+  <div class="glow"></div>
+
+  <div class="content center">
+
+    <div class="eyebrow">
+      18 september · 00:00
+    </div>
+
+    <h1>
+      hey anam.
+    </h1>
+
+    <p style="margin-top:25px">
+      don't open this like a normal birthday wish...
+    </p>
+
+    <button
+      style="margin-top:30px"
+      onclick="nextPage()"
+    >
+      okay, let's see
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- 02 -->
+<!-- ================================================= -->
+
+<section class="page">
+
+  <div class="stars"></div>
+
+  <div class="content center">
+
+    <div class="moon"></div>
+
+    <div class="eyebrow">
+      tonight
+    </div>
+
+    <h2>
+      the whole night is yours.
+    </h2>
+
+    <p style="margin-top:20px">
+      bas thora sa ruk... abhi birthday wish start bhi nhi hui 😭
+    </p>
+
+    <button
+      style="margin-top:28px"
+      onclick="nextPage()"
+    >
+      next
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- 03 -->
+<!-- ================================================= -->
+
+<section class="page">
+
+  <div class="content center">
+
+    <div class="eyebrow">
+      this page is officially
+    </div>
+
+    <h1>
+      ANAM
+    </h1>
+
+    <p style="margin-top:23px">
+      birthday girl mode: on.<br>
+      ego level: please control krna.
+    </p>
+
+    <button
+      style="margin-top:29px"
+      onclick="nextPage()"
+    >
+      i'll try
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- 04 -->
+<!-- ================================================= -->
+
+<section class="page">
+
+  <div class="content center">
+
+    <div class="eyebrow">
+      a little constellation
+    </div>
+
+    <div class="constellation">
+
+      <div class="constellation-line l1"></div>
+      <div class="constellation-line l2"></div>
+      <div class="constellation-line l3"></div>
+
+      <span class="node"
+        style="left:16%;top:45%">
+      </span>
+
+      <span class="node"
+        style="left:31%;top:34%;animation-delay:.4s">
+      </span>
+
+      <span class="node"
+        style="left:47%;top:49%;animation-delay:.8s">
+      </span>
+
+      <span class="node"
+        style="left:65%;top:61%;animation-delay:1.2s">
+      </span>
+
+      <span class="node"
+        style="left:78%;top:39%;animation-delay:1.6s">
+      </span>
+
+      <span class="node"
+        style="left:54%;top:75%;animation-delay:2s">
+      </span>
+
+    </div>
+
+    <p>
+      har star pe ek choti si baat hai...<br>
+      one page at a time.
+    </p>
+
+    <button
+      style="margin-top:25px"
+      onclick="nextPage()"
+    >
+      first star
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- 05 -->
+<!-- ================================================= -->
+
+<section class="page">
+
+  <div class="content starPage">
+
+    <div>
+
+      <div class="eyebrow">
+        01 / random
+      </div>
+
+      <p>
+        kabhi socha hai humari friendship kitni random si
+        start hui thi? mujhe toh abhi bhi funny lgta hai 😭
+      </p>
+
+      <button
+        style="margin-top:25px"
+        onclick="nextPage()"
+      >
+        next
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- 06 -->
+<!-- ================================================= -->
+
+<section class="page">
+
+  <div class="content s
